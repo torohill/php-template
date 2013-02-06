@@ -1,5 +1,5 @@
 <?php
-namespace ToroHill\PHPTemplate;
+namespace torohill\PHPTemplate;
 
 /*
  * A very simple template class. 
