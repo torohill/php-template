@@ -1,4 +1,6 @@
 <?php
+namespace ToroHill\PHPTemplate;
+
 /*
  * A very simple template class. 
  * Assign template variables as member variables then call execute or use the static render method.
@@ -6,7 +8,7 @@
  * Limitations:
  * 	- Can't have a template variable named $this as it conflicts with the reference to the current object.
  */
-class Template{
+class PHPTemplate{
 	// Filename of template.
 	protected $file;
 
