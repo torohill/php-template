@@ -1,8 +1,8 @@
 <?php
 /**
- * A very simple template class. 
- * Assign template variables as member variables then call execute.
- * Can also use the static render to assign variables and execute in a single line.
+ * A very simple template class that uses PHP as the template language.
+ * Assign template variables as member variables then call execute().
+ * Can also use the static render() method to assign variables and execute in a single call.
  *
  * Limitations:
  * 	- Can't have a $this template variable (conflicts with reference to the current object).
@@ -45,7 +45,7 @@ class Template{
 	 * Set path to empty string to unset the current path.
 	 */
 	public static function setPath($path){
-		self::$path = $path;
+		self::$path = (string) $path;
 	}
 
 	/*
@@ -55,15 +55,15 @@ class Template{
 	 * Set suffix to empty string to unset the current suffix.
 	 */
 	public static function setSuffix($suffix){
-		self::$suffix = $suffix;
+		self::$suffix = (string) $suffix;
 	}
 
 	/*
 	 * Set multiple template variables at the same time.
-	 * $value should be an associative array.
+	 * $vars should be an associative array.
 	 */
-	public function set(array $values){
-		$this->vars = array_merge($this->vars, $values);
+	public function set(array $vars){
+		$this->vars = array_merge($this->vars, $vars);
 	}
 
 	/*
@@ -89,17 +89,19 @@ class Template{
 
 	/*
 	 * Load and execute a template and return the results.
+	 * $vars should be an associative array of template variables.
 	 */
-	public static function render($file, array $args=array()){
+	public static function render($file, array $vars=array()){
 		$template = new Template($file);
-		$template->set($args);
+		$template->set($vars);
 		return $template->execute();
 	}
 
 	/*
 	 * Load and echo a template.
+	 * $vars should be an associative array of template variables.
 	 */
-	public static function display($file, array $args=array()){
-		echo self::render($file, $args);
+	public static function display($file, array $vars=array()){
+		echo self::render($file, $vars);
 	}
 }
