@@ -8,7 +8,7 @@
  * 	- Can't have a $this template variable (conflicts with reference to the current object).
  */
 
-namespace torohill\PHPTemplate;
+namespace ToroHill\PHPTemplate;
 
 class PHPTemplate{
 	// Filename of template.
@@ -43,7 +43,7 @@ class PHPTemplate{
 	 * Will be prepended to all template names regardless of whether they are relative or absolute.
 	 * Set path to empty string to unset the current path.
 	 */
-	public static function set_path($path){
+	public static function setPath($path){
 		self::$path = $path;
 	}
 
@@ -53,7 +53,7 @@ class PHPTemplate{
 	 * Will be appended to all template names.
 	 * Set suffix to empty string to unset the current suffix.
 	 */
-	public static function set_suffix($suffix){
+	public static function setSuffix($suffix){
 		self::$suffix = $suffix;
 	}
 
