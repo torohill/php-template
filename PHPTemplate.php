@@ -1,13 +1,15 @@
 <?php
-namespace torohill\PHPTemplate;
-
-/*
+/**
  * A very simple template class. 
- * Assign template variables as member variables then call execute or use the static render method.
+ * Assign template variables as member variables then call execute.
+ * Can also use the static render to assign variables and execute in a single line.
  *
  * Limitations:
- * 	- Can't have a template variable named $this as it conflicts with the reference to the current object.
+ * 	- Can't have a $this template variable (conflicts with reference to the current object).
  */
+
+namespace torohill\PHPTemplate;
+
 class PHPTemplate{
 	// Filename of template.
 	protected $file;
