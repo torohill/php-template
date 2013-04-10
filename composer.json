@@ -1,6 +1,9 @@
 {
-	"name": "torohill/php-template",
+	"name": "torohill/phptemplate",
 	"require": {
 		"php": ">=5.3"
+	},
+	"autoload": {
+		"psr-0": { "torohill\\phptemplate": "" }
 	}
 }
