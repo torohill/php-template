@@ -1,5 +1,5 @@
 {
-	"name": "torohill/phptemplate",
+	"name": "torohill/php-template",
 	"require": {
 		"php": ">=5.3"
 	}
