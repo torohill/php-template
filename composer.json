@@ -1,0 +1,6 @@
+{
+	"name": "torohill/phptemplate",
+	"require": {
+		"php": ">=5.3"
+	}
+}
