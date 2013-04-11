@@ -4,7 +4,7 @@
 		"php": ">=5.3"
 	},
 	"autoload": {
-		"PSR-0": { 
+		"psr-0": { 
 			"PHPTemplate": ""
 		}
 	}
