@@ -1,9 +1,11 @@
 {
-	"name": "torohill/phptemplate",
+	"name": "torohill/php-template",
 	"require": {
 		"php": ">=5.3"
 	},
 	"autoload": {
-		"classmap": [ "" ]
+		"PSR-0": { 
+			"PHPTemplate": ""
+		}
 	}
 }

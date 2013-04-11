@@ -8,8 +8,7 @@
  * 	- Can't have a $this template variable (conflicts with reference to the current object).
  */
 
-// Use lowercase namespace so it's easy to distinguish from a class name.
-namespace torohill\phptemplate;
+namespace PHPTemplate;
 
 class Template{
 	// Filename of template.
