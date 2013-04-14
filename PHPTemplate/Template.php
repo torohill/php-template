@@ -80,13 +80,6 @@ class Template{
 	}
 
 	/*
-	 * Execute a template and echo the results.
-	 */
-	public function output(){
-		echo $this->execute();
-	}
-
-	/*
 	 * Load and execute a template and return the results.
 	 * $vars should be an associative array of template variables.
 	 */
@@ -94,13 +87,5 @@ class Template{
 		$template = new Template($file);
 		$template->set($vars);
 		return $template->execute();
-	}
-
-	/*
-	 * Load and echo a template.
-	 * $vars should be an associative array of template variables.
-	 */
-	public static function display($file, array $vars=array()){
-		echo self::render($file, $vars);
 	}
 }
