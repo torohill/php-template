@@ -88,4 +88,13 @@ class Template{
 		$template->set($vars);
 		return $template->execute();
 	}
+
+	/*
+	 * Load and execute a template while passing all the current templates variables to the sub-template.
+	 * Returns the results. 
+	 * To be called from within a template file with $this->subRender()
+	 */ 
+	protected function subRender($file, array $vars=array()){
+		return self::render($file, array_merge($this->vars, $vars));
+	}
 }
