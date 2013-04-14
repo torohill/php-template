@@ -6,6 +6,13 @@
  *
  * Limitations:
  * 	- Can't have a $this template variable (conflicts with reference to the current object).
+ *
+ * Gotchas:
+ * 	- Member variables (eg. $file, $vars etc) can be used as template variables, but not 
+ * 		in child classes. The reason they can be used as template variables is that __set() 
+ * 		is called when assignment is done to a inaccessible property (eg. protected). 
+ * 		However, if $this->file = 'foo' is called from within a child class then the code
+ * 		will have access to the protected $file member variable so __set() won't be called.
  */
 
 namespace PHPTemplate;
