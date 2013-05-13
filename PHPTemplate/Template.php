@@ -13,8 +13,8 @@
  * 		$t->set(array(1 => 'bar'));
  * 		$Template_1 is the variable that is available in the template as $1 is not valid.
  * 	- Member variables (eg. $file, $vars etc) can be used as template variables, but not 
- * 		in child classes. The reason they can be used as template variables is that __set() 
- * 		is called when assignment is done to a inaccessible property (eg. protected). 
+ * 		from within child classes. The reason they can be used as template variables is that 
+ * 		__set() is called when assignment is done to a inaccessible property (eg. protected). 
  * 		However, if $this->file = 'foo' is called from within a child class then the code
  * 		will have access to the protected $file member variable so __set() won't be called.
  */
