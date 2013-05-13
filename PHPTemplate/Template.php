@@ -4,23 +4,24 @@
  * Assign template variables as member variables then call execute().
  * Can also use the static render() method to assign variables and execute in a single call.
  *
- * Limitations:
- * 	- Can't have a $this template variable (conflicts with reference to the current object).
- *
  * Gotchas:
- * 	- Invalid variable names be prefixed with self::PREFIX plus an _ in templates, eg.
+ * 	- Invalid variable names be prefixed with self::PREFIX plus an _ in templates. eg.
  * 		$t = new Template('foo.html'); 
- * 		$t->set(array(1 => 'bar'));
- * 		$Template_1 is the variable that is available in the template as $1 is not valid.
+ * 		$t->set(array(1 => 'bar')); // $PHPTemplate_1 is available in the template as $1 is not valid
+ *
  * 	- $this as a template variable will automatically be prefixed with self::PREFIX plus an _.
- * 		This is to avoid a clash with the $this reference to the object.
- * 		This avoids some weirdness in templates where echo $this outputs the template variable
- * 		but $this->foo() also works and calls Template object.
+ * 		This is to avoid a clash with the $this reference to the object,
+ * 		and avoids some weirdness in templates where echo $this outputs the template variable
+ * 		but $this->foo() also works and calls the Template object. eg.
+ * 		$t = new Template('foo.html'); 
+ * 		$t->this = 'foo'; // $PHPTemplate_this is available in the template.
+ *
  * 	- Member variables (eg. $file, $vars etc) can be used as template variables, but not 
  * 		from within child classes. The reason they can be used as template variables is that 
  * 		__set() is called when assignment is done to a inaccessible property (eg. protected). 
  * 		However, if $this->file = 'foo' is called from within a child class then the code
  * 		will have access to the protected $file member variable so __set() won't be called.
+ *
  * 	- isset() on a template variable will return TRUE for a NULL value, 
  * 		which is different to how isset normally works in PHP. eg.
  * 		$t = new Template('foo.html'); 
@@ -67,7 +68,6 @@ class Template{
 		unset($this->vars[$key]);
 	}
 
-
 	/*
 	 * Set multiple template variables at the same time.
 	 * $vars should be an associative array.
@@ -84,8 +84,8 @@ class Template{
 	public function execute(){
 		// $this is the only variable assigned in this scope, let's prefix it with self::PREFIX.
 		// There doesn't appear to be a way to do this with extract() and also prefix invalid variables.
-		// Call magic methods explicitly as it makes it a bit clear what is going on.
-		// And avoids problems with __set() not getting called.
+		// Call magic methods explicitly as it makes it a bit clearer what is going on,
+		// and avoids problems with __set() not getting called.
 		if($this->__isset('this')){
 			$this->__set(self::PREFIX . '_this', $this->__get('this'));
 			$this->__unset('this');
