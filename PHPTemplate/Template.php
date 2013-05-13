@@ -8,6 +8,10 @@
  * 	- Can't have a $this template variable (conflicts with reference to the current object).
  *
  * Gotchas:
+ * 	- Only use valid variable names for template variables. For example don't do this:
+ * 		$t = new Template('foo.html'); 
+ * 		$t->set(array(1 => 'bar'));
+ * 		1 is not a valid variable name, hence the behaviour in this case is not defined.
  * 	- Member variables (eg. $file, $vars etc) can be used as template variables, but not 
  * 		in child classes. The reason they can be used as template variables is that __set() 
  * 		is called when assignment is done to a inaccessible property (eg. protected). 
