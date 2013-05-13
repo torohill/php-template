@@ -82,14 +82,8 @@ class Template{
 	 * Don't define any other variables as they will pollute the scope in the template file.
 	 */
 	public function execute(){
-		// $this is the only variable assigned in this scope, let's prefix it with self::PREFIX.
-		// There doesn't appear to be a way to do this with extract() and also prefix invalid variables.
-		// Call magic methods explicitly as it makes it a bit clearer what is going on,
-		// and avoids problems with __set() not getting called.
-		if($this->__isset('this')){
-			$this->__set(self::PREFIX . '_this', $this->__get('this'));
-			$this->__unset('this');
-		}
+		$this->preprocessVars();
+
 		// Note that EXTR_PREFIX_INVALID automatically puts an _ between the prefix and the variable name.
 		extract($this->vars, EXTR_PREFIX_INVALID, self::PREFIX);
 		ob_start();
@@ -145,6 +139,20 @@ class Template{
 	 */ 
 	protected function subRender($file, array $vars=array()){
 		return self::render($file, self::mergeVars($this->vars, $vars));
+	}
+
+	/*
+	 * Process vars before executing a template.
+	 * $this is the only variable assigned in the template scope, let's prefix it with self::PREFIX.
+	 * There doesn't appear to be a way to do this with extract() and also prefix invalid variables.
+	 */
+	protected function preprocessVars(){
+		// Call magic methods explicitly as it makes it a bit clearer what is going on,
+		// and avoids problems with __set() not getting called.
+		if($this->__isset('this')){
+			$this->__set(self::PREFIX . '_this', $this->__get('this'));
+			$this->__unset('this');
+		}
 	}
 
 	/*
