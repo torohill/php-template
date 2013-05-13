@@ -59,7 +59,7 @@ class Template{
 		$this->vars[$key] = $value;
 	}
 	// Note that this will return TRUE for a value that is set to NULL, 
-	// which is different to how isset normally works.
+	// which is different to how isset normally works in PHP.
 	public function __isset($key){
 		return array_key_exists($key, $this->vars);
 	}
@@ -67,26 +67,6 @@ class Template{
 		unset($this->vars[$key]);
 	}
 
-	/*
-	 * Set the default base path for all templates.
-	 * Saves having to specify the path for every template.
-	 * Should contain a trailing slash as will not be modified before prepending.
-	 * Will be prepended to all template names regardless of whether they are relative or absolute.
-	 * Set path to empty string to unset the current path.
-	 */
-	public static function setPath($path){
-		self::$path = (string) $path;
-	}
-
-	/*
-	 * Set the default file suffix for all templates.
-	 * Saves having to specify the suffix for every template.
-	 * Will be appended to all template names.
-	 * Set suffix to empty string to unset the current suffix.
-	 */
-	public static function setSuffix($suffix){
-		self::$suffix = (string) $suffix;
-	}
 
 	/*
 	 * Set multiple template variables at the same time.
@@ -120,6 +100,31 @@ class Template{
 	}
 
 	/*
+	 * Public static methods
+	 */
+
+	/*
+	 * Set the default base path for all templates.
+	 * Saves having to specify the path for every template.
+	 * Should contain a trailing slash as will not be modified before prepending.
+	 * Will be prepended to all template names regardless of whether they are relative or absolute.
+	 * Set path to empty string to unset the current path.
+	 */
+	public static function setPath($path){
+		self::$path = (string) $path;
+	}
+
+	/*
+	 * Set the default file suffix for all templates.
+	 * Saves having to specify the suffix for every template.
+	 * Will be appended to all template names.
+	 * Set suffix to empty string to unset the current suffix.
+	 */
+	public static function setSuffix($suffix){
+		self::$suffix = (string) $suffix;
+	}
+
+	/*
 	 * Load and execute a template and return the results.
 	 * $vars should be an associative array of template variables.
 	 */
@@ -141,6 +146,10 @@ class Template{
 	protected function subRender($file, array $vars=array()){
 		return self::render($file, self::merge($this->vars, $vars));
 	}
+
+	/*
+	 * Protected static methods
+	 */
 
 	/* 
 	 * Merge two associative arrays of template variables and return the results.
