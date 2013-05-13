@@ -76,7 +76,7 @@ class Template{
 	 * $vars should be an associative array.
 	 */
 	public function set(array $vars){
-		$this->vars = array_merge($this->vars, $vars);
+		$this->vars = self::merge($this->vars, $vars);
 	}
 
 	/*
@@ -107,9 +107,20 @@ class Template{
 	/*
 	 * Load and execute a template while passing all the current templates variables to the sub-template.
 	 * Returns the results. 
-	 * To be called from within a template file with $this->subRender()
+	 * To be called from within a template file with $this->subRender($file, $vars);
 	 */ 
 	protected function subRender($file, array $vars=array()){
-		return self::render($file, array_merge($this->vars, $vars));
+		return self::render($file, self::merge($this->vars, $vars));
+	}
+
+	/* 
+	 * Merge two associative arrays of template variables and return the results.
+	 * Values in $vars2 will overwrite values in $vars1.
+	 * Numerical keys are not renumbered.
+	 */
+	protected static function merge(array $vars1, array $vars2){
+		// Don't use array_merge() because then numerical keys get renumbered.
+		// With the union operator the left hand operand is used if there are conflicting keys.
+		return $vars2 + $vars1;
 	}
 }
