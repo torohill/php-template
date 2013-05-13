@@ -8,10 +8,10 @@
  * 	- Can't have a $this template variable (conflicts with reference to the current object).
  *
  * Gotchas:
- * 	- Only use valid variable names for template variables. For example don't do this:
+ * 	- Invalid variable names for template variables will be prefixed with Template_, eg.
  * 		$t = new Template('foo.html'); 
  * 		$t->set(array(1 => 'bar'));
- * 		1 is not a valid variable name, hence the behaviour in this case is not defined.
+ * 		$Template_1 is the variable that is available in the template as $1 is not valid.
  * 	- Member variables (eg. $file, $vars etc) can be used as template variables, but not 
  * 		in child classes. The reason they can be used as template variables is that __set() 
  * 		is called when assignment is done to a inaccessible property (eg. protected). 
@@ -22,6 +22,9 @@
 namespace PHPTemplate;
 
 class Template{
+	// Prefix that will be added to invalid template variable names (eg. numbers).
+	const PREFIX = 'Template';
+
 	// Filename of template.
 	protected $file;
 
@@ -82,7 +85,8 @@ class Template{
 	 * Don't define any other variables as they will pollute the scope in the template file.
 	 */
 	public function execute(){
-		extract($this->vars);
+		// Note that EXTR_PREFIX_INVALID automatically puts an _ between the prefix and the variable name.
+		extract($this->vars, EXTR_PREFIX_INVALID, self::PREFIX);
 		ob_start();
 		include(self::$path . $this->file . self::$suffix);
 		$content = ob_get_contents();
