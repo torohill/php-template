@@ -15,6 +15,7 @@ It is also possible to use the static `Template::render()` method to assign vari
 example.php
 
 	:::php
+		<?php
 		require_once 'PHPTemplate/Template.php';
 		use PHPTemplate\Template;
 
