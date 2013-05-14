@@ -2,6 +2,8 @@
 
 A very basic template class that uses PHP as the templating language.
 
+__Project Status__: stable
+
 Works like this:
 
 1. Create a `Template` object.
