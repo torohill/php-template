@@ -70,9 +70,9 @@ class Template{
 	public function __set($key, $value){
 		$this->vars[$key] = $value;
 	}
-	// Note that this will return TRUE for a value that is set to NULL, 
-	// which is different to how isset normally works in PHP.
 	public function __isset($key){
+		// Note that this will return TRUE for a value that is set to NULL, 
+		// which is different to how isset normally works in PHP.
 		return array_key_exists($key, $this->vars);
 	}
 	public function __unset($key){
