@@ -1,8 +1,11 @@
 # PHP Template
 
-A very basic template class that uses PHP as the templating language.
-
 __Project Status__: stable
+
+
+## Overview
+
+A very basic template class that uses PHP as the templating language.
 
 Works like this:
 
@@ -12,7 +15,8 @@ Works like this:
 
 It is also possible to use the static `Template::render()` method to assign variables and execute in a single call.
 
-## Example usage:
+
+## Example Usage
 
 example.php
 
