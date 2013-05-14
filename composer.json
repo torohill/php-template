@@ -1,5 +1,18 @@
 {
 	"name": "torohill/php-template",
+	"type": "library",
+	"description": "A very basic template class that uses PHP as the templating language.",
+	"keywords": ["template","templating","php"],
+	"homepage": "https://bitbucket.org/torohill/php-template/",
+	"license": "MIT",
+	"authors": [
+		{
+			"name": "Toro Hill",
+			"email": "toro@karere.co.nz",
+			"homepage": "http://karere.co.nz",
+			"role": "Developer"
+		}
+	],
 	"require": {
 		"php": ">=5.3"
 	},
