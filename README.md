@@ -14,16 +14,18 @@ It is also possible to use the static `Template::render()` method to assign vari
 
 example.php
 
-	require_once 'PHPTemplate/Template.php';
-	use PHPTemplate\Template;
+	:::php
+		require_once 'PHPTemplate/Template.php';
+		use PHPTemplate\Template;
 
-	$t = new Template('hello.html.php');
-	$t->greeting = 'Hello';
-	$t->who = 'world';
+		$t = new Template('hello.html.php');
+		$t->greeting = 'Hello';
+		$t->who = 'world';
 
-	echo $t->execute();
+		echo $t->execute();
 
 hello.html.php
 
-	<?= $greeting ?>, <?= $who ?>!
+	:::php
+		<?= $greeting ?>, <?= $who ?>!
 
