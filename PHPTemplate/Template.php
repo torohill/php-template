@@ -1,10 +1,19 @@
 <?php
 /**
+ * PHP Template
+ *
  * A very simple template class that uses PHP as the template language.
- * Assign template variables as member variables then call execute().
- * Can also use the static render() method to assign variables and execute in a single call.
- * Includes support for sub-rendering where all the variables from the current template are 
- * passed to the sub-template.
+ *
+ * @author	Toro Hill
+ * @link	https://bitbucket.org/torohill/php-template/
+ */
+
+/**
+ * Basic usage: 
+ * 	Assign template variables as member variables then call execute().
+ * 	Can also use the static render() method to assign variables and execute in a single call.
+ * 	Includes support for sub-rendering where all the variables from the current template are 
+ * 	passed to the sub-template.
  *
  * Gotchas:
  * 	- Invalid variable names eill be prefixed with self::PREFIX plus an _ in templates. eg.
