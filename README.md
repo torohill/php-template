@@ -19,13 +19,13 @@ example.php
 		require_once 'PHPTemplate/Template.php';
 		use PHPTemplate\Template;
 
-		$t = new Template('hello.html.php');
+		$t = new Template('hello.php');
 		$t->greeting = 'Hello';
 		$t->who = 'world';
 
 		echo $t->execute();
 
-hello.html.php
+hello.php
 
 	:::php
 		<?= $greeting ?>, <?= $who ?>!
