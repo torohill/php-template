@@ -3,9 +3,11 @@
  * A very simple template class that uses PHP as the template language.
  * Assign template variables as member variables then call execute().
  * Can also use the static render() method to assign variables and execute in a single call.
+ * Includes support for sub-rendering where all the variables from the current template are 
+ * passed to the sub-template.
  *
  * Gotchas:
- * 	- Invalid variable names be prefixed with self::PREFIX plus an _ in templates. eg.
+ * 	- Invalid variable names eill be prefixed with self::PREFIX plus an _ in templates. eg.
  * 		$t = new Template('foo.html'); 
  * 		$t->set(array(1 => 'bar')); // $PHPTemplate_1 is available in the template as $1 is not valid
  *
@@ -22,8 +24,8 @@
  * 		However, if $this->file = 'foo' is called from within a child class then the code
  * 		will have access to the protected $file member variable so __set() won't be called.
  *
- * 	- isset() on a template variable will return TRUE for a NULL value, 
- * 		which is different to how isset normally works in PHP. eg.
+ * 	- isset() on a template variable will return TRUE for a NULL value, which is different 
+ * 		to how isset normally works in PHP. eg.
  * 		$t = new Template('foo.html'); 
  * 		$t->foo = NULL;
  * 		isset($t->foo); // TRUE
