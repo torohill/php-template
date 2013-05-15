@@ -31,8 +31,9 @@ example.php
 
 		echo $t->execute();
 
-		// Alternatively:
+		// Alternatives:
 		// echo $t->execute(array('greeting' => 'Hello', 'who' => 'world'));
+		// echo $t->set(array('greeting' => 'Hello', 'who' => 'world'))->execute();
 
 hello.php
 

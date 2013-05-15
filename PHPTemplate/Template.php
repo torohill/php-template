@@ -82,9 +82,11 @@ class Template{
 	/*
 	 * Set multiple template variables at the same time.
 	 * $vars should be an associative array.
+	 * Return $this to enable method chaining.
 	 */
 	public function set(array $vars){
 		$this->vars = self::mergeVars($this->vars, $vars);
+		return $this;
 	}
 
 	/*
