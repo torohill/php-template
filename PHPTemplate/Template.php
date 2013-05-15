@@ -134,7 +134,9 @@ class Template{
 	 * $vars should be an associative array of template variables.
 	 */
 	public static function render($file, array $vars=array()){
-		$template = new Template($file);
+		// Use new static() (instead of new self() or new Template()) as this uses the class 
+		// that the render method was called on rather this class.
+		$template = new static($file);
 		$template->set($vars);
 		return $template->execute();
 	}
