@@ -95,6 +95,9 @@ class Template{
 	 */
 	public function execute(array $vars=array()){
 		$this->set($vars);
+		// Remove $vars from template scope.
+		unset($vars);
+
 		$this->preprocessVars();
 
 		// Note that EXTR_PREFIX_INVALID automatically puts an _ between the prefix and the variable name.
