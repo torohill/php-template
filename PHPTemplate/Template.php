@@ -89,10 +89,12 @@ class Template{
 
 	/*
 	 * Execute the template with the current template variables and return the output.
-	 * Note that the template files can access $this if needed (but it's probably not good form).
+	 * $vars is an optional associative array of template variables 
+	 * Note that the template files can access $this if needed. 
 	 * Don't define any other variables as they will pollute the scope in the template file.
 	 */
-	public function execute(){
+	public function execute(array $vars=array()){
+		$this->set($vars);
 		$this->preprocessVars();
 
 		// Note that EXTR_PREFIX_INVALID automatically puts an _ between the prefix and the variable name.

@@ -31,6 +31,9 @@ example.php
 
 		echo $t->execute();
 
+		// Alternatively:
+		// echo $t->execute(array('greeting' => 'Hello', 'who' => 'world'));
+
 hello.php
 
 	:::php
