@@ -135,7 +135,7 @@ class Template{
 	 */
 	public static function render($file, array $vars=array()){
 		// Use new static() (instead of new self() or new Template()) as this uses the class 
-		// that the render method was called on rather this class.
+		// that the render method was called on rather than this class.
 		$template = new static($file);
 		$template->set($vars);
 		return $template->execute();
