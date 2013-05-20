@@ -1,3 +1,9 @@
-2013-05-14  Toro Hill  <toro@karere.co.nz>
+1.0.0  2013-05-14  Toro Hill  <toro@karere.co.nz>
 
 	* First stable version. Created 1.0.0 tag.
+
+1.1.0  2013-05-20  Toro Hill  <toro@karere.co.nz>
+
+	* Use new static() rather than new Template() in render method.
+	* Add the ability to pass an associative array of template variables to execute();
+	* Enable method chaining for the set method.
