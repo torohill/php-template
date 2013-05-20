@@ -149,6 +149,19 @@ class Template{
 	}
 
 	/*
+	 * Load an execute a template by calling a specific class constructor.
+	 * Any additional parameters are passed to the constructor.
+	 * Does not set() any variables so all parameters must be passed through constructor.
+	 */
+	public static function objRender($class){
+		$args = func_get_args();
+		array_shift($args);
+		$ref = new \ReflectionClass($class);
+		$object = $ref->newInstanceArgs($args);
+		return $object->execute();
+	}
+
+	/*
 	 * Protected methods
 	 */
 
