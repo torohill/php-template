@@ -7,3 +7,7 @@
 	* Use new static() rather than new Template() in render method.
 	* Add the ability to pass an associative array of template variables to execute();
 	* Enable method chaining for the set method.
+
+1.2.0  2013-05-21  Toro Hill  <toro@karere.co.nz>
+
+	* Add objRender method for rendering a template using a specific class.
