@@ -16,7 +16,7 @@
  * 	passed to the sub-template.
  *
  * Gotchas:
- * 	- Invalid variable names eill be prefixed with self::PREFIX plus an _ in templates. eg.
+ * 	- Invalid variable names will be prefixed with self::PREFIX plus an _ in templates. eg.
  * 		$t = new Template('foo.html'); 
  * 		$t->set(array(1 => 'bar')); // $PHPTemplate_1 is available in the template as $1 is not valid
  *
@@ -149,7 +149,7 @@ class Template{
 	}
 
 	/*
-	 * Load an execute a template by calling a specific class constructor.
+	 * Load and execute a template by calling a specific class constructor.
 	 * Any additional parameters are passed to the constructor.
 	 * Does not set() any variables so all parameters must be passed through constructor.
 	 */
