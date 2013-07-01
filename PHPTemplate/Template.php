@@ -9,28 +9,11 @@
  * 	passed to the sub-template.
  *
  * Gotchas:
- * 	* Invalid variable names will be prefixed with self::PREFIX plus an _ in templates. eg.
- * 		$t = new Template('foo.html'); 
- * 		$t->set(array(1 => 'bar')); // $PHPTemplate_1 is available in the template as $1 is not valid
- *
- * 	* $this as a template variable will automatically be prefixed with self::PREFIX plus an _.
- * 		This is to avoid a clash with the $this reference to the object,
- * 		and avoids some weirdness in templates where echo $this outputs the template variable
- * 		but $this->foo() also works and calls the Template object. eg.
- * 		$t = new Template('foo.html'); 
- * 		$t->this = 'foo'; // $PHPTemplate_this is available in the template.
- *
  * 	* Member variables (eg. $file, $vars etc) can be used as template variables, but not 
  * 		from within child classes. The reason they can be used as template variables is that 
  * 		__set() is called when assignment is done to a inaccessible property (eg. protected). 
  * 		However, if $this->file = 'foo' is called from within a child class then the code
  * 		will have access to the protected $file member variable so __set() won't be called.
- *
- * 	* isset() on a template variable will return TRUE for a NULL value, which is different 
- * 		to how isset normally works in PHP. eg.
- * 		$t = new Template('foo.html'); 
- * 		$t->foo = NULL;
- * 		isset($t->foo); // TRUE
  *
  * @author	Toro Hill
  * @link	https://bitbucket.org/torohill/php-template/
