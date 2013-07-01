@@ -45,11 +45,6 @@ namespace PHPTemplate;
 
 class Template{
 	/**
-	 * Prefix that will be added to invalid template variable names (eg. numbers).
-	 */
-	const PREFIX = 'PHPTemplate';
-
-	/**
 	 * Filename of template.
 	 */
 	protected $file;
@@ -112,6 +107,7 @@ class Template{
 	 * @return	void
 	 */
 	public function __set($key, $value){
+		$this->checkValidVar($key);
 		$this->vars[$key] = $value;
 	}
 	/**
@@ -158,11 +154,13 @@ class Template{
 	/**
 	 * Set multiple template variables at the same time.
 	 *
-	 * @param	array	$vars	An associtive array of template variable names to values.
+	 * @param	array	$vars	An associative array of template variable names to values.
 	 * @return	Template		Returns $this to enable method chaining.
 	 */
 	public function set(array $vars){
-		$this->vars = self::mergeVars($this->vars, $vars);
+		foreach($vars as $key => $value){
+			$this->__set($key, $value);
+		}
 		return $this;
 	}
 
@@ -180,10 +178,11 @@ class Template{
 		// Remove $vars from template scope.
 		unset($vars);
 
-		$this->preprocessVars();
+		// There shouldn't be any variables to overwrite because there are no variables
+		// in this scope and $this is not allowed, but use EXTR_SKIP just to be safe.
+		// Note that PHP will not extract over superglobals.
+		extract($this->vars, EXTR_SKIP);
 
-		// Note that EXTR_PREFIX_INVALID automatically puts an _ between the prefix and the variable name.
-		extract($this->vars, EXTR_PREFIX_INVALID, self::PREFIX);
 		ob_start();
 		include(self::$config['path'] . $this->file . self::$config['suffix']);
 		$content = ob_get_contents();
@@ -247,23 +246,6 @@ class Template{
 	}
 
 	/**
-	 * Internal method for pre-processing vars before executing a template.
-	 *
-	 * $this is the only variable assigned in the template scope, let's prefix it with self::PREFIX.
-	 * There doesn't appear to be a way to do this with extract() and also prefix invalid variables.
-	 *
-	 * @return	void
-	 */
-	protected function preprocessVars(){
-		// Call magic methods explicitly as it makes it a bit clearer what is going on,
-		// and avoids problems with __set() not getting called.
-		if($this->exists('this')){
-			$this->__set(self::PREFIX . '_this', $this->__get('this'));
-			$this->__unset('this');
-		}
-	}
-
-	/**
 	 * Internal static method for merging two arrays of variables without renumbering numerical keys.
 	 *
 	 * @param	array	$vars1	First array of vars to merge.
@@ -275,5 +257,46 @@ class Template{
 		// Don't use array_merge() because then numerical keys get renumbered.
 		// With the union operator the left hand operand is used if there are conflicting keys.
 		return $vars2 + $vars1;
+	}
+
+	/**
+	 * Check whether a template variable name is valid.
+	 *
+	 * Checks with the variable name is a valid PHP variable name
+	 * (letter or underscore followed by any number of letters, numbers or underscores)
+	 * and also checks against a list of reserved variable names 
+	 * (this and superglobals).
+	 *
+	 * @param	array	$key	Name of template variable to check.
+	 * @throws	Exception		Throws an exception if the variable name is not valid.
+	 * @return	void
+	 *
+	 */
+	protected static function checkValidVar($key){
+		$key = (string) $key;
+
+		// Don't allow variables with the same name as superglobals.
+		// extract() won't actually overwrite superglobals in $this->execute() but 
+		// explicitly throw an exception to make it harder to hurt yourself.
+		$invalid_vars = array(
+			'this'
+			, 'GLOBALS'
+			, '_SERVER'
+			, '_GET'
+			, '_POST'
+			, '_FILES'
+			, '_COOKIE'
+			, '_SESSION'
+			, '_REQUEST'
+			, '_ENV'
+		);
+
+		// Regular expression for valid variable names take from:
+		// http://php.net/manual/en/language.variables.basics.php
+		$regexp_var = '/^[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*$/';
+
+		if(!preg_match($regexp_var, $key) || in_array($key, $invalid_vars)){
+			throw new Exception('Invalid template variable name "' . $key .'".');
+		}
 	}
 }
