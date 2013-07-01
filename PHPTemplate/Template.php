@@ -9,24 +9,24 @@
  * 	passed to the sub-template.
  *
  * Gotchas:
- * 	- Invalid variable names will be prefixed with self::PREFIX plus an _ in templates. eg.
+ * 	* Invalid variable names will be prefixed with self::PREFIX plus an _ in templates. eg.
  * 		$t = new Template('foo.html'); 
  * 		$t->set(array(1 => 'bar')); // $PHPTemplate_1 is available in the template as $1 is not valid
  *
- * 	- $this as a template variable will automatically be prefixed with self::PREFIX plus an _.
+ * 	* $this as a template variable will automatically be prefixed with self::PREFIX plus an _.
  * 		This is to avoid a clash with the $this reference to the object,
  * 		and avoids some weirdness in templates where echo $this outputs the template variable
  * 		but $this->foo() also works and calls the Template object. eg.
  * 		$t = new Template('foo.html'); 
  * 		$t->this = 'foo'; // $PHPTemplate_this is available in the template.
  *
- * 	- Member variables (eg. $file, $vars etc) can be used as template variables, but not 
+ * 	* Member variables (eg. $file, $vars etc) can be used as template variables, but not 
  * 		from within child classes. The reason they can be used as template variables is that 
  * 		__set() is called when assignment is done to a inaccessible property (eg. protected). 
  * 		However, if $this->file = 'foo' is called from within a child class then the code
  * 		will have access to the protected $file member variable so __set() won't be called.
  *
- * 	- isset() on a template variable will return TRUE for a NULL value, which is different 
+ * 	* isset() on a template variable will return TRUE for a NULL value, which is different 
  * 		to how isset normally works in PHP. eg.
  * 		$t = new Template('foo.html'); 
  * 		$t->foo = NULL;
@@ -60,14 +60,25 @@ class Template{
 	protected $vars = array();
 
 	/**
-	 * Default path to templates. Static so used for all template objects.
+	 * Static configuration options that are used for all template objects.
+	 *
+	 * The options are:
+	 * 	* path - Default path to templates.  
+	 * 		Will be prepended to all template names regardless of whether they are relative or absolute.
+	 * 		Set path to empty string to unset the current path.
+	 * 	* suffix - Default template suffix.
+	 * 		Will be appended to template file names for all template objects.
+	 *		Should contain joining . (eg. .html.php)
+	 * 		Set suffix to empty string to unset the current suffix.
+	 *
+	 * Uses an associative array of configuration options instead of individual
+	 * static properties as it's easier to add new options.
+	 * 
 	 */
-	protected static $path = '';
-
-	/**
-	 * Default template suffix. Static so used for all template objects.
-	 */
-	protected static $suffix = '';
+	protected static $config = array(
+		'path' => ''
+		, 'suffix' => ''
+	);
 
 	/**
 	 * Create a new template.
@@ -77,6 +88,7 @@ class Template{
 	public function __construct($file){
 		$this->file = $file;
 	}
+
 	/**
 	 * Magic getter for template variables.
 	 *
@@ -173,45 +185,20 @@ class Template{
 		// Note that EXTR_PREFIX_INVALID automatically puts an _ between the prefix and the variable name.
 		extract($this->vars, EXTR_PREFIX_INVALID, self::PREFIX);
 		ob_start();
-		include(self::$path . $this->file . self::$suffix);
+		include(self::$config['path'] . $this->file . self::$config['suffix']);
 		$content = ob_get_contents();
 		ob_end_clean();
 		return $content;
 	}
 
 	/**
-	 * Set the default base path for all templates.
+	 * Set the default configuration options for all templates.
 	 *
-	 * Saves having to specify the path for every template.
-	 * Will be prepended to all template names regardless of whether they are relative or absolute.
-	 * Set path to empty string to unset the current path.
-	 *
-	 * @param	string	$path	Default path to template files. 
-	 * Will be prepended to the template file name for all template objects. 
-	 * Should contain a trailing slash as will not be modified before prepending.
-	 *
+	 * @param	array	$config 	Associative array of configuration options.
 	 * @return	void
 	 */
-	public static function setPath($path){
-		self::$path = (string) $path;
-	}
-
-	/**
-	 * Set the default file suffix for all templates.
-	 *
-	 * Saves having to specify the suffix for every template.
-	 * Will be appended to all template names.
-	 *
-	 * Set suffix to empty string to unset the current suffix.
-	 *
-	 * @param	string	$suffix	Default file suffix. 
-	 * Will be appended to template file names for all template objects.
-	 * Should contain joining . (eg. .html.php)
-	 *
-	 * @return	void
-	 */
-	public static function setSuffix($suffix){
-		self::$suffix = (string) $suffix;
+	public static function setConfig(array $config){
+		array_merge(self::$config, $config);
 	}
 
 	/**
