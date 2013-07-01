@@ -87,7 +87,7 @@ class Template{
 	 * @return	mixed			Value of template variable or NULL if not set.
 	 */
 	public function __get($key){
-		return $this->__isset($key) ? $this->vars[$key] : NULL;
+		return $this->exists($key) ? $this->vars[$key] : NULL;
 	}
 	/**
 	 * Magic setter for template variables.
@@ -103,24 +103,23 @@ class Template{
 		$this->vars[$key] = $value;
 	}
 	/**
-	 * Magic method for checking if template variables are set.
+	 * Magic method for checking if a template variable is set.
 	 *
 	 * Executed when isset or empty is called on an inaccessible property.
 	 * eg. isset($template->foo);
 	 * eg. empty($template->foo);
 	 *
-	 * Note that this will return TRUE for a value that is set to NULL, 
-	 * which is different to how isset normally works in PHP.
-	 *
 	 * @param	string	$key	Name of template variable.
-	 * @param	mixed	$value	Value of template variable.
 	 * @return	bool			Whether the template variable is set.
+	 * Returns FALSE if value exists but is NULL, this is the same as the default behaviour for isset in PHP.
+	 * Use $this->exists() to check if a value exists, including NULL.
 	 */
 	public function __isset($key){
-		return array_key_exists($key, $this->vars);
+		return isset($this->vars[$key]);
 	}
 	/**
-	 * Magic method for unsetting template variables.
+	 * Magic method for unsetting a template variable.
+	 *
 	 * Execute when unset is called on an inaccessible property.
 	 * eg. unset($template->foo);
 	 *
@@ -129,6 +128,19 @@ class Template{
 	 */
 	public function __unset($key){
 		unset($this->vars[$key]);
+	}
+	/**
+	 * Check whether a template variable exists.
+	 *
+	 * unset($this->foo) will return FALSE if foo is set to NULL or if foo doesn't exist.
+	 * $this->exists('foo') will return TRUE is foo is set to NULL and FALSE if foo doesn't exist.
+	 *
+	 * @param	string	$key	Name of template variable.
+	 * @return	bool			Whether the template exists. 
+	 * Returns TRUE for a variable that exists and is set to NULL.
+	 */
+	public function exists($key){
+		return array_key_exists($key, $this->vars);
 	}
 
 	/**
@@ -258,7 +270,7 @@ class Template{
 	protected function preprocessVars(){
 		// Call magic methods explicitly as it makes it a bit clearer what is going on,
 		// and avoids problems with __set() not getting called.
-		if($this->__isset('this')){
+		if($this->exists('this')){
 			$this->__set(self::PREFIX . '_this', $this->__get('this'));
 			$this->__unset('this');
 		}
