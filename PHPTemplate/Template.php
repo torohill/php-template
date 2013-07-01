@@ -96,6 +96,7 @@ class Template{
 	public function __get($key){
 		return $this->exists($key) ? $this->vars[$key] : NULL;
 	}
+
 	/**
 	 * Magic setter for template variables.
 	 *
@@ -110,6 +111,7 @@ class Template{
 		$this->checkValidVar($key);
 		$this->vars[$key] = $value;
 	}
+
 	/**
 	 * Magic method for checking if a template variable is set.
 	 *
@@ -125,6 +127,7 @@ class Template{
 	public function __isset($key){
 		return isset($this->vars[$key]);
 	}
+
 	/**
 	 * Magic method for unsetting a template variable.
 	 *
@@ -137,6 +140,7 @@ class Template{
 	public function __unset($key){
 		unset($this->vars[$key]);
 	}
+
 	/**
 	 * Check whether a template variable exists.
 	 *
