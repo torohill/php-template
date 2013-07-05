@@ -85,6 +85,7 @@ class Template{
 	 *
 	 * Executed when an inaccessible property is assigned a value.
 	 * eg. $template->foo = 'bar';
+	 * Will throw an exception if $key is not a valid var name (as per checkValidVar()).
 	 *
 	 * @param	string	$key	Name of template variable being set.
 	 * @param	mixed	$value	Value of template variable.
@@ -140,6 +141,10 @@ class Template{
 
 	/**
 	 * Set multiple template variables at the same time.
+	 *
+	 * Each key in the $vars array must be a valid PHP variable name.
+	 * This means numerical keys will not work. Will throw an exception 
+	 * if a var name is not valid (as per checkValidVar()).
 	 *
 	 * @param	array	$vars	An associative array of template variable names to values.
 	 * @return	Template		Returns $this to enable method chaining.
@@ -260,8 +265,6 @@ class Template{
 	 *
 	 */
 	protected static function checkValidVar($key){
-		$key = (string) $key;
-
 		// Don't allow variables with the same name as superglobals.
 		// extract() won't actually overwrite superglobals in $this->execute() but 
 		// explicitly throw an exception to make it harder to hurt yourself.
@@ -282,7 +285,7 @@ class Template{
 		// http://php.net/manual/en/language.variables.basics.php
 		$regexp_var = '/^[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*$/';
 
-		if(!preg_match($regexp_var, $key) || in_array($key, $invalid_vars, TRUE)){
+		if(!is_string($key) || !preg_match($regexp_var, $key) || in_array($key, $invalid_vars, TRUE)){
 			throw new Exception('Invalid template variable name "' . $key .'".');
 		}
 	}
