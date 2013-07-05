@@ -2,6 +2,6 @@
 /**
  * PHP Template exception class.
  */
-namespace PHPTemplate;
+namespace PhpTemplate;
 
 class Exception extends \Exception{}

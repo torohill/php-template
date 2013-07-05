@@ -15,12 +15,18 @@
  * 		However, if $this->file = 'foo' is called from within a child class then the code
  * 		will have access to the protected $file member variable so __set() won't be called.
  *
+ * The namespace is PhpTemplate rather than PHPTemplate to follow the recommendation that
+ * acronyms longer that are longer than two characters should use studly caps rather than 
+ * all captials. More details at the links below:
+ * 		http://msdn.microsoft.com/en-us/library/141e06ef%28v=vs.71%29.aspx
+ *		http://stackoverflow.com/a/15526526
+ *
  * @author	Toro Hill
  * @link	https://bitbucket.org/torohill/php-template/
  * @license MIT
  */
 
-namespace PHPTemplate;
+namespace PhpTemplate;
 
 /**
  * Main template class.

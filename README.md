@@ -22,8 +22,8 @@ example.php
 
 	:::php
 		<?php
-		require_once 'PHPTemplate/Template.php';
-		use PHPTemplate\Template;
+		require_once 'PhpTemplate/Template.php';
+		use PhpTemplate\Template;
 
 		$t = new Template('hello.php');
 		$t->greeting = 'Hello';
