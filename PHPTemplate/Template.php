@@ -191,14 +191,15 @@ class Template{
 	 * $config['path'] will not be prepended if the template file name is already absolute.
 	 * $config['suffix'] will not be appended if the template file name already ends in the suffix.
 	 *
-	 * @return	string	Full file name 
+	 * @return	string	Full file name of template, including path and suffix if appropriate.
 	 */
 	protected function getFileName(){
 		$path = '';
 		if(!is_null(self::$config['path']) && '/' !== substr($this->file, 0, 1)){
 			$path .= self::$config['path'];
+
+			// Add a joining / if needed.
 			if('/' !== substr($path, -1)){
-				// Add a joining / is needed.
 				$path .= '/';
 			}
 		}
