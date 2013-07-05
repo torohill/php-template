@@ -42,20 +42,20 @@ class Template{
 	 *
 	 * The options are:
 	 * 	* path - Default path to templates.  
-	 * 		Will be prepended to all template names regardless of whether they are relative or absolute.
-	 * 		Set path to empty string to unset the current path.
+	 * 		Will only prepended to relative template names, absolute names (will be left alone) 
+	 * 		Trailing slash is optional. Set path to NULL to unset the current path.
 	 * 	* suffix - Default template suffix.
-	 * 		Will be appended to template file names for all template objects.
-	 *		Should contain joining . (eg. .html.php)
-	 * 		Set suffix to empty string to unset the current suffix.
+	 * 		Will be appended to template file names for all template objects unless the 
+	 * 		suffix is already present. Should contain joining . (eg. .html.php)
+	 * 		Set suffix to NULL to unset the current suffix.
 	 *
 	 * Uses an associative array of configuration options instead of individual
 	 * static properties as it's easier to add new options.
 	 * 
 	 */
 	protected static $config = array(
-		'path' => ''
-		, 'suffix' => ''
+		'path' => NULL
+		, 'suffix' => NULL
 	);
 
 	/**
@@ -178,11 +178,37 @@ class Template{
 		extract($this->vars, EXTR_SKIP);
 
 		ob_start();
-		include(self::$config['path'] . $this->file . self::$config['suffix']);
+		include($this->getFileName());
 		$content = ob_get_contents();
 		ob_end_clean();
 
 		return $content;
+	}
+
+	/**
+	 * Return the full file name of the current template based on the current configuration.
+	 *
+	 * $config['path'] will not be prepended if the template file name is already absolute.
+	 * $config['suffix'] will not be appended if the template file name already ends in the suffix.
+	 *
+	 * @return	string	Full file name 
+	 */
+	protected function getFileName(){
+		$path = '';
+		if(!is_null(self::$config['path']) && '/' !== substr($this->file, 0, 1)){
+			$path .= self::$config['path'];
+			if('/' !== substr($path, -1)){
+				// Add a joining / is needed.
+				$path .= '/';
+			}
+		}
+		$path .= $this->file;
+		if(!is_null(self::$config['suffix']) 
+			&& self::$config['suffix'] !== substr($path, -strlen(self::$config['suffix']))){
+
+			$path .= self::$config['suffix'];
+		}
+		return $path;
 	}
 
 	/**
