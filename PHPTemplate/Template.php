@@ -192,7 +192,7 @@ class Template{
 	 * @return	void
 	 */
 	public static function setConfig(array $config){
-		array_merge(self::$config, $config);
+		self::$config = array_merge(self::$config, $config);
 	}
 
 	/**
