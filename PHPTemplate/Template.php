@@ -208,17 +208,15 @@ class Template{
 	 * Does not set() any variables so all parameters must be passed through constructor.
 	 *
 	 * @param	string	$class	Name of class for template object.
-	 * @param	mixed	...		Unlimited arguments to be passed to class constructor.
-	 * All additional parameters after $class are passed to the constructor.
+	 * @param	array	$args	Array of values to pass as arguments to the template object constructor.
+	 * @param	array	$vars	Associative array of template variables to set on the template object.
 	 *
 	 * @return	string			Output from executing the template object.
 	 */
-	public static function objRender($class){
-		$args = func_get_args();
-		array_shift($args);
+	public static function objRender($class, array $args=array(), array $vars=array()){
 		$ref = new \ReflectionClass($class);
 		$object = $ref->newInstanceArgs($args);
-		return $object->execute();
+		return $object->execute($vars);
 	}
 
 	/**
