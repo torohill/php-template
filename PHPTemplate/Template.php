@@ -64,7 +64,7 @@ class Template{
 	 * @param	string	$file	Path and name of template file.
 	 */
 	public function __construct($file){
-		$this->file = $file;
+		$this->file = (string) $file;
 	}
 
 	/**
@@ -145,6 +145,8 @@ class Template{
 	 * @return	Template		Returns $this to enable method chaining.
 	 */
 	public function set(array $vars){
+		// We could use mergeVars() with $this->vars but instead call __set() directly to
+		// so that each var is passed to checkValidVar()
 		foreach($vars as $key => $value){
 			$this->__set($key, $value);
 		}
@@ -174,6 +176,7 @@ class Template{
 		include(self::$config['path'] . $this->file . self::$config['suffix']);
 		$content = ob_get_contents();
 		ob_end_clean();
+
 		return $content;
 	}
 
@@ -198,8 +201,7 @@ class Template{
 		// Use new static() (instead of new self() or new Template()) as this uses the class 
 		// that the render method was called on rather than this class.
 		$template = new static($file);
-		$template->set($vars);
-		return $template->execute();
+		return $template->execute($vars);
 	}
 
 	/**
@@ -220,7 +222,8 @@ class Template{
 	}
 
 	/**
-	 * Load, execute and return the output from a template while passing all the current templates variables to the sub-template.
+	 * Load, execute and return the output from a template while passing all the current 
+	 * templates variables to the sub-template.
 	 *
 	 * @param	string	$file	Template file name.
 	 * @param	array	$vars	Optional associative array of additional template variables.
@@ -249,8 +252,7 @@ class Template{
 	 *
 	 * Checks with the variable name is a valid PHP variable name
 	 * (letter or underscore followed by any number of letters, numbers or underscores)
-	 * and also checks against a list of reserved variable names 
-	 * (this and superglobals).
+	 * and also checks against a list of reserved variable names (this and superglobals).
 	 *
 	 * @param	array	$key	Name of template variable to check.
 	 * @throws	Exception		Throws an exception if the variable name is not valid.
@@ -280,7 +282,7 @@ class Template{
 		// http://php.net/manual/en/language.variables.basics.php
 		$regexp_var = '/^[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*$/';
 
-		if(!preg_match($regexp_var, $key) || in_array($key, $invalid_vars)){
+		if(!preg_match($regexp_var, $key) || in_array($key, $invalid_vars, TRUE)){
 			throw new Exception('Invalid template variable name "' . $key .'".');
 		}
 	}
