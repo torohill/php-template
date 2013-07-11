@@ -56,7 +56,7 @@ With this approach only the variables passed as the second parameter are availab
 
 	<?= $this->subRender('foo.php') ?>
 
-Using `subRender()` passed all the template variables from the current template to the next template. It doesn't pass any local variables that were defined within the current template file. 
+Using `subRender()` passes all the template variables from the current template to the next template. It doesn't pass any local variables that were defined within the current template file.
 
 	<?= static::objRender('Template', array('foo.php'), array('foo'=>'bar')) ?>
 
