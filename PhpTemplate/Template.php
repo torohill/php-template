@@ -202,18 +202,18 @@ class Template{
 	 */
 	protected function getFileName($file){
 		$path = '';
-		if(!is_null(self::$config['path']) && '/' !== substr($file, 0, 1)){
-			$path .= self::$config['path'];
+		if(!is_null(static::$config['path']) && '/' !== substr($file, 0, 1)){
+			$path .= static::$config['path'];
 
 			if('/' !== substr($path, -1)){
 				$path .= '/';
 			}
 		}
 		$path .= $file;
-		if(!is_null(self::$config['suffix']) 
-			&& self::$config['suffix'] !== substr($path, -strlen(self::$config['suffix']))){
+		if(!is_null(static::$config['suffix']) 
+			&& static::$config['suffix'] !== substr($path, -strlen(static::$config['suffix']))){
 
-			$path .= self::$config['suffix'];
+			$path .= static::$config['suffix'];
 		}
 		return $path;
 	}
@@ -225,7 +225,7 @@ class Template{
 	 * @return	void
 	 */
 	public static function setConfig(array $config){
-		self::$config = array_merge(self::$config, $config);
+		static::$config = array_merge(static::$config, $config);
 	}
 
 	/**
@@ -268,7 +268,7 @@ class Template{
 	 * @return	string			Output from executing the template file.
 	 */ 
 	protected function subRender($file, array $vars=array()){
-		return self::render($file, self::mergeVars($this->vars, $vars));
+		return $this->render($file, static::mergeVars($this->vars, $vars));
 	}
 
 	/**
