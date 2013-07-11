@@ -179,12 +179,12 @@ class Template{
 		unset($vars);
 
 		// There shouldn't be any variables to overwrite because there are no variables
-		// in this scope and $this is not allowed, but use EXTR_SKIP just to be safe.
+		// in this scope other than $this which is not allowed, but use EXTR_SKIP just to be safe.
 		// Note that PHP will not extract over superglobals.
 		extract($this->vars, EXTR_SKIP);
 
 		ob_start();
-		include($this->getFileName());
+		include($this->getFileName($this->file));
 		$content = ob_get_contents();
 		ob_end_clean();
 
@@ -196,20 +196,20 @@ class Template{
 	 *
 	 * $config['path'] will not be prepended if the template file name is already absolute.
 	 * $config['suffix'] will not be appended if the template file name already ends in the suffix.
+	 * This method can be used from within templates to convert template names to full file names.
 	 *
 	 * @return	string	Full file name of template, including path and suffix if appropriate.
 	 */
-	protected function getFileName(){
+	protected function getFileName($file){
 		$path = '';
-		if(!is_null(self::$config['path']) && '/' !== substr($this->file, 0, 1)){
+		if(!is_null(self::$config['path']) && '/' !== substr($file, 0, 1)){
 			$path .= self::$config['path'];
 
-			// Add a joining / if needed.
 			if('/' !== substr($path, -1)){
 				$path .= '/';
 			}
 		}
-		$path .= $this->file;
+		$path .= $file;
 		if(!is_null(self::$config['suffix']) 
 			&& self::$config['suffix'] !== substr($path, -strlen(self::$config['suffix']))){
 
