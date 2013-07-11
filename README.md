@@ -1,11 +1,8 @@
 # PHP Template
 
-__Project Status__: stable
+A very basic template library that uses PHP as the templating language.
 
-
-## Overview
-
-A very basic template class that uses PHP as the templating language.
+## Usage
 
 Works like this:
 
@@ -14,9 +11,6 @@ Works like this:
 1. Call `Template->execute()` to retrieve the rendered template.
 
 It is also possible to use the static `Template::render()` method to assign variables and execute in a single call.
-
-
-## Example Usage
 
 example.php
 
@@ -40,3 +34,24 @@ hello.php
 	:::php
 		<?= $greeting ?>, <?= $who ?>!
 
+## Installation
+
+Add the following to the requires section in your `composer.json` file and then run `composer install`.
+
+	"torohill/php-template": "2.*"
+
+## Requirements
+
+PHP >= 5.3
+
+## Contributing
+
+Report bugs and submit pull request at <https://bitbucket.org/torohill/php-template/>.
+
+## Testing
+
+Unit tests not yet implemented ...
+
+## License
+
+PHP Templates is released under the MIT License, see the `LICENSE` file for details.
