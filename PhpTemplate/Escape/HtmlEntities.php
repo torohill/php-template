@@ -15,7 +15,7 @@ class HtmlEntities implements EscapeInterface{
 	 * Escape html entities in a string.
 	 *
 	 * Encodes single and double quotes, replaces any invalid code sequences with U+FFFD
-	 * and handles code as HTML5.
+	 * and handles code as HTML5. Also, input string is treated as UTF-8.
 	 *
 	 * @param	string	$value	The html string to be escaped.
 	 * @return	string			Escaped html input.

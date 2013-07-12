@@ -48,7 +48,7 @@ class Template{
 	 *
 	 * The options are:
 	 * 	* path - Default path to templates.  
-	 * 		Will only be prepended to relative template names, absolute names (will be left alone) 
+	 * 		Will only be prepended to relative template names, absolute names (will be left alone)
 	 * 		Trailing slash is optional. Set path to NULL to unset the current path.
 	 * 	* suffix - Default template suffix.
 	 * 		Will be appended to template file names for all template objects unless the 
@@ -201,7 +201,8 @@ class Template{
 	 * $config['suffix'] will not be appended if the template file name already ends in the suffix.
 	 * This method can be used from within templates to convert template names to full file names.
 	 *
-	 * @return	string	Full file name of template, including path and suffix if appropriate.
+	 * @param	strin	$file	Template file name.
+	 * @return	string			Full file name of template, including path and suffix if appropriate.
 	 */
 	protected function getFileName($file){
 		$path = '';
@@ -224,6 +225,8 @@ class Template{
 	/**
 	 * Set the default configuration options for all templates.
 	 *
+	 * 'escape' config values are passed to addEscape() to ensure they are validated correctly.
+	 *
 	 * @param	array	$config 	Associative array of configuration options.
 	 * @return	void
 	 */
@@ -241,15 +244,33 @@ class Template{
 		static::$config = array_merge(static::$config, $config);
 	}
 
+	/**
+	 * Adds an object to the end of the list of configured escape ojbects.
+	 *
+	 * @param	Escape\EscapeInterface	$escape	Object 
+	 * return	void
+	 */
 	public static function addEscape(Escape\EscapeInterface $escape){
 		static::$config['escape'][] = $escape;
 	}
 
+	/**
+	 * Clears the list of configurated escape objects.
+	 *
+	 * @param	void
+	 * @return	void
+	 */
 	public static function clearEscape(){
 		static::$config['escape'] = array();
 	}
 
-	public function esc($value){
+	/**
+	 * Escapes a value, using the list of configured escape objects.
+	 * 
+	 * @param	string	$value	String value to be escaped.
+	 * @return	string			Escaped value.
+	 */
+	public function escape($value){
 		foreach(static::$config['escape'] as $escape){
 			$value = $escape->escape($value);
 		}
@@ -278,7 +299,6 @@ class Template{
 	 * @param	string	$class	Name of class for template object.
 	 * @param	array	$args	Array of values to pass as arguments to the template object constructor.
 	 * @param	array	$vars	Associative array of template variables to set on the template object.
-	 *
 	 * @return	string			Output from executing the template object.
 	 */
 	public static function objRender($class, array $args=array(), array $vars=array()){
