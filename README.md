@@ -17,7 +17,7 @@ PHP >= 5.3
 
 ## Usage
 
-1. Create a `Template` object.
+1. Create a `\PhpTemplate\Template` object.
 1. Assign template variables as member variables.
 1. Call `Template->execute()` to retrieve the rendered template.
 
@@ -31,7 +31,7 @@ example.php
 		<?php
 		require_once 'vendor/autoload.php'; // Require composer autoloader.
 
-		$t = new \PhpTemplate\Template('hello.php');
+		$t = new \PhpTemplate\Template('hello.txt.php');
 		$t->greeting = 'Hello';
 		$t->who = 'world';
 
@@ -40,9 +40,9 @@ example.php
 		// Alternatives:
 		// echo $t->execute(array('greeting' => 'Hello', 'who' => 'world'));
 		// echo $t->set(array('greeting' => 'Hello', 'who' => 'world'))->execute();
-		// echo \PhpTemplate\Template::render('hello.php', array('greeting' => 'Hello', 'who' => 'world'));
+		// echo \PhpTemplate\Template::render('hello.txt.php', array('greeting' => 'Hello', 'who' => 'world'));
 
-hello.php
+hello.txt.php
 
 	:::php
 		<?= $greeting ?>, <?= $who ?>!
@@ -64,7 +64,7 @@ Configuration options can be set by passing an associative array of options to t
 
 ### Escaping Values
 
-Objects which implement `\PhpTemplate\Escape\EscapeInterface` are added to the configuration using `Template::addEscape()` (or with the `Template::setConfig()`). Then `$this->escape()` is then called from within a template to escape a value. The `\PhpTemplate\Escape\HtmlEntitesEscape` class can be used for escaping HTML entities.
+Objects which implement `\PhpTemplate\Escape\EscapeInterface` are added to the configuration using `Template::addEscape()` (or with `Template::setConfig()`). Then `$this->escape()` is called from within a template to escape a value. The `\PhpTemplate\Escape\HtmlEntitesEscape` class can be used for escaping HTML entities.
 
 For example:
 
@@ -101,7 +101,7 @@ The following approaches can be used to include another template from within a t
 
 	<?= static::render('foo.php', array('foo'=>'bar')) ?>
 
-With this approach only the variables passed as the second parameter are available within `foo.php`. The use of the `static` keyword means that `render()` is called on class that the original `execute()` call was made against. Alternatively, you can use `self::render()` which will call `render()` on the class which included the template file (this would normally be the base `Template` class).
+With this approach only the variables passed as the second parameter are available within `foo.php`. The use of the `static` keyword means that `render()` is called on the class that the original `execute()` call was made against. Alternatively, you can use `self::render()` which will call `render()` on the class which included the template file (this would normally be the base `Template` class).
 
 	<?= $this->subRender('foo.php') ?>
 
@@ -109,7 +109,7 @@ Using `subRender()` passes all the template variables from the current template 
 
 	<?= static::objRender('Template', array('foo.php'), array('foo'=>'bar')) ?>
 
-Using `objRender()` instantiates a template of the class specified by the first argument, passes the second argument to the class constructor and assigns the third argument as template variables.
+Using `objRender()` instantiates a template of the class specified by the first argument, passes the second array argument to the class constructor (as individual arguments) and assigns the third argument as template variables.
 
 	<?= include $this->getFileName('foo.php') ?>
 
