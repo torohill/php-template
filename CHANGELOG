@@ -11,3 +11,19 @@
 1.2.0  2013-05-21  Toro Hill  <toro@karere.co.nz>
 
 	* Add objRender method for rendering a template using a specific class.
+
+2.0.0  2013-07-12  Toro Hill  <toro@karere.co.nz>
+
+	* Update __isset() behaviour to be consistent with PHP and added exists() method for the case were a template variable exists but is NULL.
+	* Update to use an array of configuration options instead of individual properties.
+	* Modify objRender() to support the passing of template variables.
+	* Throw an exception for invalid variable names instead of prefixing them.
+	* Check template variable names to make sure they are valid as variable names.
+	* Don't allow 'this' or any of the superglobal names as template variable names.
+	* Make the code which handles the path and suffix configuration options smarter.
+	* Rename namespace to PhpTemplate from PHPTemplate.
+	* Update to use static instead of self for static variables and methods.
+	* Add escape configuration option, EscapeInterface interface, and escape() method for escaping values.
+	* Add HtmlEntitiesEscape class for escaping HTML entities.
+	* Update all comments to be phpdoc compatible.
+	* Update README with documentation for changes.
