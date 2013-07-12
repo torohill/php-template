@@ -3,6 +3,18 @@
 A very basic template library that uses PHP as the templating language.
 
 
+## Installation
+
+Add the following to the requires section in your `composer.json` file and then run `composer install`.
+
+	"torohill/php-template": "2.*"
+
+
+## Requirements
+
+PHP >= 5.3
+
+
 ## Usage
 
 1. Create a `Template` object.
@@ -10,7 +22,6 @@ A very basic template library that uses PHP as the templating language.
 1. Call `Template->execute()` to retrieve the rendered template.
 
 It is also possible to use the static `Template::render()` method to assign variables and execute in a single call.
-
 
 ###  Example Usage
 
@@ -105,26 +116,14 @@ Using `objRender()` instantiates a template of the class specified by the first 
 This approach includes the next template in the same scope as the current template. This means that template variables and also variables defined locally within the current template will be available. The call to `$this->getFileName()` ensures that the correct path and suffix (see Configuration above) are used when including the next template.
 
 
-## Installation
+## Testing
 
-Add the following to the requires section in your `composer.json` file and then run `composer install`.
-
-	"torohill/php-template": "2.*"
-
-
-## Requirements
-
-PHP >= 5.3
+Unit tests not yet implemented ...
 
 
 ## Contributing
 
-Report bugs and submit pull request at <https://bitbucket.org/torohill/php-template/>.
-
-
-## Testing
-
-Unit tests not yet implemented ...
+Report bugs and submit pull request to <https://bitbucket.org/torohill/php-template/>.
 
 
 ## License
