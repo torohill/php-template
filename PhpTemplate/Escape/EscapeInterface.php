@@ -1,6 +1,6 @@
 <?php
 /**
- * Escape Interface definition.
+ * PHP Template Escape Interface definition.
  *
  * The interface which all objects that are used for escaping content must implement.
  *
