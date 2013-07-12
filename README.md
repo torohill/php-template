@@ -29,7 +29,7 @@ example.php
 
 	:::php
 		<?php
-		require_once 'vendor/autoload.php'; // Require composer autoloader.
+		require_once 'vendor/autoload.php'; // Require composer autoloader
 
 		$t = new \PhpTemplate\Template('hello.txt.php');
 		$t->greeting = 'Hello';
@@ -64,7 +64,7 @@ Configuration options can be set by passing an associative array of options to t
 
 ### Escaping Values
 
-Objects which implement `\PhpTemplate\Escape\EscapeInterface` are added to the configuration using `Template::addEscape()` (or with `Template::setConfig()`). Then `$this->escape()` is called from within a template to escape a value. The `\PhpTemplate\Escape\HtmlEntitesEscape` class can be used for escaping HTML entities.
+Objects which implement `\PhpTemplate\Escape\EscapeInterface` are added to the configuration using `Template::addEscape()` (or with `Template::setConfig()`). Then `$this->escape()` is called from within a template to escape a value. The `\PhpTemplate\Escape\HtmlEntitiesEscape` class can be used for escaping HTML entities.
 
 For example:
 
@@ -72,7 +72,7 @@ example.php
 
 	:::php
 		<?php
-		require_once 'vendor/autoload.php'; // Require composer autoloader.
+		require_once 'vendor/autoload.php'; // Require composer autoloader
 
 		use \PhpTemplate\Template;
 		use \PhpTemplate\Escape\HtmlEntitiesEscape;
