@@ -27,6 +27,9 @@ class HtmlEntitiesEscape implements EscapeInterface{
 	/**
 	 * Create a new HtmlEntitiesEscape object.
 	 *
+	 * By default encodes single and double quotes, replaces any invalid code sequences with 
+	 * U+FFFD and handles code as HTML5. Also, input string is treated as UTF-8.
+	 *
 	 * @param	string	$encoding	The encoding to use when escaping html entities.
 	 * @param	int		$flags		Bitmask of ENT_* constants.
 	 */
@@ -36,9 +39,6 @@ class HtmlEntitiesEscape implements EscapeInterface{
 	}
 	/**
 	 * Escape html entities in a string.
-	 *
-	 * Encodes single and double quotes, replaces any invalid code sequences with U+FFFD
-	 * and handles code as HTML5. Also, input string is treated as UTF-8.
 	 *
 	 * @param	string	$value	The html string to be escaped.
 	 * @return	string			Escaped html input.
