@@ -10,13 +10,13 @@
  *
  * Gotchas:
  * 	* Member variables (eg. $file, $vars etc) can be used as template variables, but not 
- * 		from within child classes. The reason they can be used as template variables is that 
- * 		__set() is called when assignment is done to a inaccessible property (eg. protected). 
+ * 		from within child classes. The reason they can be used as template variables is that
+ * 		__set() is called when assignment is done to a inaccessible property (eg. protected).
  * 		However, if $this->file = 'foo' is called from within a child class then the code
  * 		will have access to the protected $file member variable so __set() won't be called.
  *
  * The namespace is PhpTemplate rather than PHPTemplate to follow the recommendation that
- * acronyms that are longer than two characters should use studly caps rather than all captials. 
+ * acronyms that are longer than two characters should use studly caps rather than all capitals.
  * More details at the links below:
  * 		http://msdn.microsoft.com/en-us/library/141e06ef%28v=vs.71%29.aspx
  *		http://stackoverflow.com/a/15526526
@@ -48,20 +48,23 @@ class Template{
 	 *
 	 * The options are:
 	 * 	* path - Default path to templates.  
-	 * 		Will only prepended to relative template names, absolute names (will be left alone) 
+	 * 		Will only be prepended to relative template names, absolute names (will be left alone) 
 	 * 		Trailing slash is optional. Set path to NULL to unset the current path.
 	 * 	* suffix - Default template suffix.
 	 * 		Will be appended to template file names for all template objects unless the 
 	 * 		suffix is already present. Should contain joining . (eg. .html.php)
 	 * 		Set suffix to NULL to unset the current suffix.
+	 * 	* escape - Array of objects which implement the EscapeInterface
+	 * 		Will used for escaping values passed to the $this->esc() method.
+	 * 		The addEscape() and clearEscape() for managing the list of escape objects.
 	 *
 	 * Uses an associative array of configuration options instead of individual
 	 * static properties as it's easier to add new options.
-	 * 
 	 */
 	protected static $config = array(
 		'path' => NULL
 		, 'suffix' => NULL
+		, 'escape' => array()
 	);
 
 	/**
@@ -225,7 +228,32 @@ class Template{
 	 * @return	void
 	 */
 	public static function setConfig(array $config){
+		if(isset($config['escape'])){
+			$escape = $config['escape'];
+			unset($config['escape']);
+			if(!is_array($escape)){
+				$escape = array($escape);
+			}
+			foreach($escape as $esc){
+				static::addEscape($esc);
+			}
+		}
 		static::$config = array_merge(static::$config, $config);
+	}
+
+	public static function addEscape(Escape\EscapeInterface $escape){
+		static::$config['escape'][] = $escape;
+	}
+
+	public static function clearEscape(){
+		static::$config['escape'] = array();
+	}
+
+	public function esc($value){
+		foreach(static::$config['escape'] as $escape){
+			$value = $escape->escape($value);
+		}
+		return $value;
 	}
 
 	/**
