@@ -10,7 +10,7 @@
  */
 namespace PhpTemplate\Escape;
 
-class HtmlEntities implements EscapeInterface{
+class HtmlEntitiesEscape implements EscapeInterface{
 	/**
 	 * Escape html entities in a string.
 	 *

@@ -53,7 +53,7 @@ Configuration options can be set by passing an associative array of options to t
 
 ### Escaping Values
 
-Objects which implement `\PhpTemplate\Escape\EscapeInterface` are added to the configuration using `Template::addEscape()` (or with the `Template::setConfig()`). Then `$this->escape()` is then called from within a template to escape a value. The `\PhpTemplate\Escape\HtmlEntites` class can be used for escaping HTML entities.
+Objects which implement `\PhpTemplate\Escape\EscapeInterface` are added to the configuration using `Template::addEscape()` (or with the `Template::setConfig()`). Then `$this->escape()` is then called from within a template to escape a value. The `\PhpTemplate\Escape\HtmlEntitesEscape` class can be used for escaping HTML entities.
 
 For example:
 
@@ -64,9 +64,9 @@ example.php
 		require_once 'vendor/autoload.php'; // Require composer autoloader.
 
 		use \PhpTemplate\Template;
-		use \PhpTemplate\Escape\HtmlEntities;
+		use \PhpTemplate\Escape\HtmlEntitiesEscape;
 
-		Template::addEscape(new HtmlEntities);
+		Template::addEscape(new HtmlEntitiesEscape);
 
 		$t = new \PhpTemplate\Template('hello.html.php');
 		$t->greeting = '<b>Hello<b>';
