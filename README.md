@@ -18,10 +18,9 @@ example.php
 
 	:::php
 		<?php
-		require_once 'PhpTemplate/Template.php';
-		use PhpTemplate\Template;
+		require_once 'vendor/autoload.php'; // Require composer autoloader.
 
-		$t = new Template('hello.php');
+		$t = new \PhpTemplate\Template('hello.php');
 		$t->greeting = 'Hello';
 		$t->who = 'world';
 
@@ -30,12 +29,17 @@ example.php
 		// Alternatives:
 		// echo $t->execute(array('greeting' => 'Hello', 'who' => 'world'));
 		// echo $t->set(array('greeting' => 'Hello', 'who' => 'world'))->execute();
-		// echo Template::render('hello.php', array('greeting' => 'Hello', 'who' => 'world'));
+		// echo \PhpTemplate\Template::render('hello.php', array('greeting' => 'Hello', 'who' => 'world'));
 
 hello.php
 
 	:::php
 		<?= $greeting ?>, <?= $who ?>!
+
+Output:
+
+	:::text
+		Hello, world!
 
 ### Configuration
 
@@ -43,8 +47,42 @@ The following configurations options are available:
 
 * `path` - the default base path to the template files.
 * `suffix` - the default suffix for template files.
+* `escape` - an array of objects, which implement `\PhpTemplate\Escape\EscapeInterface`, that will be used for escaping values.
 
 Configuration options can be set by passing an associative array of options to the static `Template::setConfig()` method. The options will then be applied to all `Template` objects that are instantiated.
+
+### Escaping Values
+
+Objects which implement `\PhpTemplate\Escape\EscapeInterface` are added to the configuration using `Template::addEscape()` (or with the `Template::setConfig()`). Then `$this->escape()` is then called from within a template to escape a value. The `\PhpTemplate\Escape\HtmlEntites` class can be used for escaping HTML entities.
+
+For example:
+
+example.php
+
+	:::php
+		<?php
+		require_once 'vendor/autoload.php'; // Require composer autoloader.
+
+		use \PhpTemplate\Template;
+		use \PhpTemplate\Escape\HtmlEntities;
+
+		Template::addEscape(new HtmlEntities);
+
+		$t = new \PhpTemplate\Template('hello.html.php');
+		$t->greeting = '<b>Hello<b>';
+		$t->who = 'world';
+
+		echo $t->execute();
+
+hello.html.php
+
+	:::php
+		<?= $this->escape($greeting) ?>, <i><?= $who ?></i>!
+
+Output:
+
+	:::html
+		&lt;b&gt;Hello&lt;b&gt;, <i>world</i>!
 
 ### Including Sub-Templates
 
