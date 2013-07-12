@@ -12,6 +12,29 @@ namespace PhpTemplate\Escape;
 
 class HtmlEntitiesEscape implements EscapeInterface{
 	/**
+	 * The encoding to use when escaping html entities.
+	 */
+	protected $encoding;
+
+	/**
+	 * Flags that determine how to handle quotes, invalid code units and document types when escaping entities.
+	 *
+	 * More details at:
+	 * http://php.net/manual/en/function.htmlentities.php
+	 */
+	protected $flags;
+
+	/**
+	 * Create a new HtmlEntitiesEscape object.
+	 *
+	 * @param	string	$encoding	The encoding to use when escaping html entities.
+	 * @param	int		$flags		Bitmask of ENT_* constants.
+	 */
+	public function __construct($encoding='UTF-8', $flags=NULL){
+		$this->encoding = $encoding;
+		$this->flags = is_null($flags) ? ENT_QUOTES | ENT_SUBSTITUTE | ENT_HTML5 : $flags;
+	}
+	/**
 	 * Escape html entities in a string.
 	 *
 	 * Encodes single and double quotes, replaces any invalid code sequences with U+FFFD
@@ -21,6 +44,6 @@ class HtmlEntitiesEscape implements EscapeInterface{
 	 * @return	string			Escaped html input.
 	 */
 	public function escape($value){
-		return htmlentities($value, ENT_QUOTES | ENT_SUBSTITUTE | ENT_HTML5, 'UTF-8');
+		return htmlentities($value, $this->flags, $this->encoding);
 	}
 }
