@@ -68,12 +68,19 @@ class Template{
 	);
 
 	/**
+	 * Local configuration options for instantiated template objects.
+	 * Will be intialised with global options from static::$config by default.
+	 */
+	protected $template_config = array();
+
+	/**
 	 * Create a new template.
 	 *
 	 * @param	string	$file	Path and name of template file.
 	 */
 	public function __construct($file){
 		$this->file = (string) $file;
+		$this->setTemplateConfig(static::$config);
 	}
 
 	/**
@@ -206,18 +213,18 @@ class Template{
 	 */
 	protected function getFileName($file){
 		$path = '';
-		if(!is_null(static::$config['path']) && '/' !== substr($file, 0, 1)){
-			$path .= static::$config['path'];
+		if(!is_null($this->template_config['path']) && '/' !== substr($file, 0, 1)){
+			$path .= $this->template_config['path'];
 
 			if('/' !== substr($path, -1)){
 				$path .= '/';
 			}
 		}
 		$path .= $file;
-		if(!is_null(static::$config['suffix']) 
-			&& static::$config['suffix'] !== substr($path, -strlen(static::$config['suffix']))){
+		if(!is_null($this->template_config['suffix'])
+			&& $this->template_config['suffix'] !== substr($path, -strlen($this->template_config['suffix']))){
 
-			$path .= static::$config['suffix'];
+			$path .= $this->template_config['suffix'];
 		}
 		return $path;
 	}
@@ -242,6 +249,17 @@ class Template{
 			}
 		}
 		static::$config = array_merge(static::$config, $config);
+	}
+
+	/**
+	 * Set the configuration options for this template object.
+	 *
+	 * @param	array	$config	Associative array of configuration options.
+	 * return	void
+	 */
+	public function setTemplateConfig(array $config)
+	{
+		$this->template_config = array_merge($this->template_config, $config);
 	}
 
 	/**
@@ -271,7 +289,7 @@ class Template{
 	 * @return	string			Escaped value.
 	 */
 	public function escape($value){
-		foreach(static::$config['escape'] as $escape){
+		foreach($this->template_config['escape'] as $escape){
 			$value = $escape->escape($value);
 		}
 		return $value;
