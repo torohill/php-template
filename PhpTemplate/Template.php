@@ -2,14 +2,14 @@
 /**
  * PHP Template - A very simple template class that uses PHP as the template language.
  *
- * Basic usage: 
+ * Basic usage:
  * 	Assign template variables as member variables then call execute().
  * 	Can also use the static render() method to assign variables and execute in a single call.
- * 	Includes support for sub-rendering where all the variables from the current template are 
+ * 	Includes support for sub-rendering where all the variables from the current template are
  * 	passed to the sub-template.
  *
  * Gotchas:
- * 	* Member variables (eg. $file, $vars etc) can be used as template variables, but not 
+ * 	* Member variables (eg. $file, $vars etc) can be used as template variables, but not
  * 		from within child classes. The reason they can be used as template variables is that
  * 		__set() is called when assignment is done to a inaccessible property (eg. protected).
  * 		However, if $this->file = 'foo' is called from within a child class then the code
@@ -47,11 +47,11 @@ class Template{
 	 * Static configuration options that are used for all template objects.
 	 *
 	 * The options are:
-	 * 	* path - Default path to templates.  
+	 * 	* path - Default path to templates.
 	 * 		Will only be prepended to relative template names, absolute names (will be left alone)
 	 * 		Trailing slash is optional. Set path to NULL to unset the current path.
 	 * 	* suffix - Default template suffix.
-	 * 		Will be appended to template file names for all template objects unless the 
+	 * 		Will be appended to template file names for all template objects unless the
 	 * 		suffix is already present. Should contain joining . (eg. .html.php)
 	 * 		Set suffix to NULL to unset the current suffix.
 	 * 	* escape - Array of objects which implement the EscapeInterface
@@ -148,7 +148,7 @@ class Template{
 	 * $this->exists('foo') will return TRUE is foo is set to NULL and FALSE if foo doesn't exist.
 	 *
 	 * @param	string	$key	Name of template variable.
-	 * @return	bool			Whether the template exists. 
+	 * @return	bool			Whether the template exists.
 	 * Returns TRUE for a variable that exists and is set to NULL.
 	 */
 	public function exists($key){
@@ -159,7 +159,7 @@ class Template{
 	 * Set multiple template variables at the same time.
 	 *
 	 * Each key in the $vars array must be a valid PHP variable name.
-	 * This means numerical keys will not work. Will throw an exception 
+	 * This means numerical keys will not work. Will throw an exception
 	 * if a var name is not valid (as per checkValidVar()).
 	 *
 	 * @param	array	$vars	An associative array of template variable names to values.
@@ -177,9 +177,9 @@ class Template{
 	/**
 	 * Execute the template with the current template variables and return the output.
 	 *
-	 * Note that the template files can access $this if needed. 
+	 * Note that the template files can access $this if needed.
 	 * Doesn't define any other variables as they will pollute the scope in the template file.
-	 * 
+	 *
 	 * @param	array	$vars 	Optional associative array of template variables.
 	 * @return	string			Output from executing template file.
 	 */
@@ -265,7 +265,7 @@ class Template{
 	/**
 	 * Adds an object to the end of the list of configured escape ojbects.
 	 *
-	 * @param	Escape\EscapeInterface	$escape	Object 
+	 * @param	Escape\EscapeInterface	$escape	Object
 	 * return	void
 	 */
 	public static function addEscape(Escape\EscapeInterface $escape){
@@ -284,7 +284,7 @@ class Template{
 
 	/**
 	 * Escapes a value, using the list of configured escape objects.
-	 * 
+	 *
 	 * @param	string	$value	String value to be escaped.
 	 * @return	string			Escaped value.
 	 */
@@ -303,7 +303,7 @@ class Template{
 	 * @return	string			Output from executing the template file.
 	 */
 	public static function render($file, array $vars=array()){
-		// Use new static() (instead of new self() or new Template()) as this uses the class 
+		// Use new static() (instead of new self() or new Template()) as this uses the class
 		// that the render method was called on rather than this class.
 		$template = new static($file);
 		return $template->execute($vars);
@@ -326,13 +326,13 @@ class Template{
 	}
 
 	/**
-	 * Load, execute and return the output from a template while passing all the current 
+	 * Load, execute and return the output from a template while passing all the current
 	 * templates variables to the sub-template.
 	 *
 	 * @param	string	$file	Template file name.
 	 * @param	array	$vars	Optional associative array of additional template variables.
 	 * @return	string			Output from executing the template file.
-	 */ 
+	 */
 	protected function subRender($file, array $vars=array()){
 		return $this->render($file, static::mergeVars($this->vars, $vars));
 	}
@@ -365,7 +365,7 @@ class Template{
 	 */
 	protected static function checkValidVar($key){
 		// Don't allow variables with the same name as superglobals.
-		// extract() won't actually overwrite superglobals in $this->execute() but 
+		// extract() won't actually overwrite superglobals in $this->execute() but
 		// explicitly throw an exception to make it harder to hurt yourself.
 		$invalid_vars = array(
 			'this'
