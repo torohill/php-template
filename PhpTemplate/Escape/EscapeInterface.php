@@ -5,7 +5,7 @@
  * The interface which all objects that are used for escaping content must implement.
  *
  * @author	Toro Hill
- * @link	https://bitbucket.org/torohill/php-template/
+ * @link	https://github.com/torohill/php-template/
  * @license MIT
  */
 namespace PhpTemplate\Escape;

@@ -3,7 +3,7 @@
 	"type": "library",
 	"description": "A very basic template class that uses PHP as the templating language.",
 	"keywords": ["template","templating","php"],
-	"homepage": "https://bitbucket.org/torohill/php-template/",
+	"homepage": "https://github.com/torohill/php-template/",
 	"license": "MIT",
 	"authors": [
 		{

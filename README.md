@@ -123,7 +123,7 @@ Unit tests not yet implemented ...
 
 ## Contributing
 
-Report bugs and submit pull request to <https://bitbucket.org/torohill/php-template/>.
+Report bugs and submit pull request to <https://github.com/torohill/php-template/>.
 
 
 ## License

@@ -5,7 +5,7 @@
  * Class for escaping html entities.
  *
  * @author	Toro Hill
- * @link	https://bitbucket.org/torohill/php-template/
+ * @link	https://github.com/torohill/php-template/
  * @license MIT
  */
 namespace PhpTemplate\Escape;

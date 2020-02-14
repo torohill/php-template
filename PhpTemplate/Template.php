@@ -22,7 +22,7 @@
  *		http://stackoverflow.com/a/15526526
  *
  * @author	Toro Hill
- * @link	https://bitbucket.org/torohill/php-template/
+ * @link	https://github.com/torohill/php-template/
  * @license MIT
  */
 
