@@ -7,7 +7,9 @@ A very basic template library that uses PHP as the templating language.
 
 Add the following to the requires section in your `composer.json` file and then run `composer install`.
 
-	"torohill/php-template": "2.*"
+```
+"torohill/php-template": "2.*"
+```
 
 
 ## Requirements
@@ -27,30 +29,33 @@ It is also possible to use the static `Template::render()` method to assign vari
 
 example.php
 
-	:::php
-		<?php
-		require_once 'vendor/autoload.php'; // Require composer autoloader
+```php
+<?php
+require_once 'vendor/autoload.php'; // Require composer autoloader
 
-		$t = new \PhpTemplate\Template('hello.txt.php');
-		$t->greeting = 'Hello';
-		$t->who = 'world';
+$t = new \PhpTemplate\Template('hello.txt.php');
+$t->greeting = 'Hello';
+$t->who = 'world';
 
-		echo $t->execute();
+echo $t->execute();
 
-		// Alternatives:
-		// echo $t->execute(array('greeting' => 'Hello', 'who' => 'world'));
-		// echo $t->set(array('greeting' => 'Hello', 'who' => 'world'))->execute();
-		// echo \PhpTemplate\Template::render('hello.txt.php', array('greeting' => 'Hello', 'who' => 'world'));
+// Alternatives:
+// echo $t->execute(array('greeting' => 'Hello', 'who' => 'world'));
+// echo $t->set(array('greeting' => 'Hello', 'who' => 'world'))->execute();
+// echo \PhpTemplate\Template::render('hello.txt.php', array('greeting' => 'Hello', 'who' => 'world'));
+```
 
 hello.txt.php
 
-	:::php
-		<?= $greeting ?>, <?= $who ?>!
+```php
+<?= $greeting ?>, <?= $who ?>!
+```
 
 Output:
 
-	:::text
-		Hello, world!
+```
+Hello, world!
+```
 
 ### Configuration
 
@@ -70,48 +75,59 @@ For example:
 
 example.php
 
-	:::php
-		<?php
-		require_once 'vendor/autoload.php'; // Require composer autoloader
+```php
+<?php
+require_once 'vendor/autoload.php'; // Require composer autoloader
 
-		use \PhpTemplate\Template;
-		use \PhpTemplate\Escape\HtmlEntitiesEscape;
+use \PhpTemplate\Template;
+use \PhpTemplate\Escape\HtmlEntitiesEscape;
 
-		Template::addEscape(new HtmlEntitiesEscape);
+Template::addEscape(new HtmlEntitiesEscape);
 
-		$t = new \PhpTemplate\Template('hello.html.php');
-		$t->greeting = '<b>Hello<b>';
-		$t->who = 'world';
+$t = new \PhpTemplate\Template('hello.html.php');
+$t->greeting = '<b>Hello<b>';
+$t->who = 'world';
 
-		echo $t->execute();
+echo $t->execute();
+```
 
 hello.html.php
 
-	:::php
-		<?= $this->escape($greeting) ?>, <i><?= $who ?></i>!
+```php
+<?= $this->escape($greeting) ?>, <i><?= $who ?></i>!
+```
 
 Output:
 
-	:::html
-		&lt;b&gt;Hello&lt;b&gt;, <i>world</i>!
+```html
+&lt;b&gt;Hello&lt;b&gt;, <i>world</i>!
+```
 
 ### Including Sub-Templates
 
 The following approaches can be used to include another template from within a template:
 
-	<?= static::render('foo.php', array('foo'=>'bar')) ?>
+```php
+<?= static::render('foo.php', array('foo'=>'bar')) ?>
+```
 
 With this approach only the variables passed as the second parameter are available within `foo.php`. The use of the `static` keyword means that `render()` is called on the class that the original `execute()` call was made against. Alternatively, you can use `self::render()` which will call `render()` on the class which included the template file (this would normally be the base `Template` class).
 
-	<?= $this->subRender('foo.php') ?>
+```php
+<?= $this->subRender('foo.php') ?>
+```
 
 Using `subRender()` passes all the template variables from the current template to the next template. It doesn't pass any local variables that were defined within the current template file.
 
-	<?= static::objRender('Template', array('foo.php'), array('foo'=>'bar')) ?>
+```php
+<?= static::objRender('Template', array('foo.php'), array('foo'=>'bar')) ?>
+```
 
 Using `objRender()` instantiates a template of the class specified by the first argument, passes the second array argument to the class constructor (as individual arguments) and assigns the third argument as template variables.
 
-	<?= include $this->getFileName('foo.php') ?>
+```php
+<?= include $this->getFileName('foo.php') ?>
+```
 
 This approach includes the next template in the same scope as the current template. This means that template variables and also variables defined locally within the current template will be available. The call to `$this->getFileName()` ensures that the correct path and suffix (see Configuration above) are used when including the next template.
 
