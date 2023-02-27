@@ -44,6 +44,7 @@ class HtmlEntitiesEscape implements EscapeInterface{
 	 * @return	string			Escaped html input.
 	 */
 	public function escape($value){
-		return htmlentities($value, $this->flags, $this->encoding);
+		// cast as string to avoid deprecated warning
+		return htmlentities((string) $value, $this->flags, $this->encoding);
 	}
 }
